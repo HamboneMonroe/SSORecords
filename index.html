@@ -125,20 +125,39 @@
         }
 
         /* Sortable Table Styles */
+                html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .table-container {
+            width: 100%;
+            max-width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             background-color: var(--card-bg);
             border-radius: 8px;
             border: 1px solid var(--border-color);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            display: block;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 0.8rem;
+            min-width: 650px;
         }
+
 
         th, td {
             padding: 12px 14px;
