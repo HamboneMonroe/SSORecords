@@ -858,42 +858,52 @@ table {
     </div>
 
     <script>
-        function openTab(tabId, element) {
-            const contents = document.querySelectorAll('.tab-content');
-            const buttons = document.querySelectorAll('.tab-btn');
+    function openTab(tabId, element) {
+        const contents = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-btn');
 
-            contents.forEach(c => c.classList.remove('active'));
-            buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        buttons.forEach(b => b.classList.remove('active'));
 
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
-        }
+        document.getElementById(tabId).classList.add('active');
+        element.classList.add('active');
+    }
 
-        let sortDirections = {};
+    let sortDirections = {};
 
-        function sortTable(columnIndex, dataType) {
-            const table = document.getElementById("leaderboardTable");
-            const tbody = table.querySelector("tbody");
-            const rows = Array.from(tbody.querySelectorAll("tr"));
+    function sortTable(columnIndex, dataType) {
+        const table = document.getElementById("leaderboardTable");
+        if (!table) return;
 
-            sortDirections[columnIndex] = !sortDirections[columnIndex];
-            const ascending = sortDirections[columnIndex];
+        const tbody = table.querySelector("tbody");
+        if (!tbody) return;
 
-            rows.sort((rowA, rowB) => {
-                let cellA = rowA.children[columnIndex].innerText.trim();
-                let cellB = rowB.children[columnIndex].innerText.trim();
+        const rows = Array.from(tbody.querySelectorAll("tr"));
 
-                if (dataType === 'int' || dataType === 'float') {
-                    cellA = parseFloat(cellA.replace(/,/g, '')) || 0;
-                    cellB = parseFloat(cellB.replace(/,/g, '')) || 0;
-                    return ascending ? cellA - cellB : cellB - cellA;
-                } else {
-                    return ascending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-                }
-            });
+        sortDirections[columnIndex] = !sortDirections[columnIndex];
+        const ascending = sortDirections[columnIndex];
 
-            rows.forEach(row => tbody.appendChild(row));
-        }
-    </script>
+        rows.sort((rowA, rowB) => {
+            const cellA = rowA.children[columnIndex];
+            const cellB = rowB.children[columnIndex];
+
+            if (!cellA || !cellB) return 0;
+
+            let valA = cellA.innerText.trim();
+            let valB = cellB.innerText.trim();
+
+            if (dataType === 'int' || dataType === 'float') {
+                valA = parseFloat(valA.replace(/[^0-9.-]/g, '')) || 0;
+                valB = parseFloat(valB.replace(/[^0-9.-]/g, '')) || 0;
+                return ascending ? valA - valB : valB - valA;
+            } else {
+                return ascending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+        });
+
+        rows.forEach(row => tbody.appendChild(row));
+    }
+</script>
+
 </body>
 </html>
