@@ -125,37 +125,99 @@
         }
 
         /* Sortable Table Styles */
-                html, body {
-            max-width: 100vw;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
+                        /* Container styling */
         .table-container {
             width: 100%;
-            max-width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
             background-color: var(--card-bg);
             border-radius: 8px;
             border: 1px solid var(--border-color);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-            margin-bottom: 10px;
-            display: block;
+            padding: 10px;
         }
 
+        /* Default desktop table layout */
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.8rem;
-            min-width: 650px;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #0f172a;
+            color: var(--accent-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        /* MOBILE CARD CONVERSION (For screens under 768px wide) */
+        @media screen and (max-width: 768px) {
+            /* Hide traditional table headers */
+            table thead {
+                display: none;
+            }
+
+            table, tbody, tr, td {
+                display: block;
+                width: 100%;
+            }
+
+            /* Convert each row into a self-contained card */
+            tr {
+                margin-bottom: 15px;
+                background-color: #0f172a;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 12px;
+                box-sizing: border-box;
+            }
+
+            /* Display cells as flex items with inline labels */
+            td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 6px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                font-size: 0.85rem;
+                text-align: right;
+            }
+
+            td:last-child {
+                border-bottom: none;
+            }
+
+            /* Add labels before values automatically on mobile */
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: var(--accent-gold);
+                text-align: left;
+                margin-right: 10px;
+            }
+
+            td.manager-name {
+                font-size: 1.1rem;
+                font-weight: bold;
+                color: var(--accent-gold);
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 8px;
+                margin-bottom: 4px;
+            }
+
+            td.manager-name::before {
+                display: none; /* Hide 'Manager:' label for header title */
+            }
         }
 
 
@@ -347,18 +409,19 @@
                 <table id="leaderboardTable">
                     <thead>
                         <tr>
-                            <th onclick="sortTable(0, 'string')">Manager</th>
-                            <th class="num-col" onclick="sortTable(1, 'int')">Seasons Played</th>
-                            <th class="num-col" onclick="sortTable(2, 'int')">Regular Season Wins</th>
-                            <th class="num-col" onclick="sortTable(3, 'int')">Regular Season Losses</th>
-                            <th class="num-col" onclick="sortTable(4, 'float')">Reg. Win %</th>
-                            <th class="num-col" onclick="sortTable(5, 'float')">Total Points For (PF)</th>
-                            <th class="num-col" onclick="sortTable(6, 'float')">Total Points Against (PA)</th>
-                            <th class="num-col" onclick="sortTable(7, 'int')">Playoff Wins</th>
-                            <th class="num-col" onclick="sortTable(8, 'int')">Playoff Losses</th>
-                            <th class="num-col" onclick="sortTable(9, 'float')">Playoff Win %</th>
-                            <th>Trophies & Honors</th>
-                        </tr>
+    <td class="manager-name">Steven</td>
+    <td class="num-col" data-label="Seasons">15</td>
+    <td class="num-col" data-label="Reg W">116</td>
+    <td class="num-col" data-label="Reg L">83</td>
+    <td class="num-col" data-label="Reg Win %">0.583</td>
+    <td class="num-col" data-label="Points For">26,527.50</td>
+    <td class="num-col" data-label="Points Against">25,761.55</td>
+    <td class="num-col" data-label="Playoff W">10</td>
+    <td class="num-col" data-label="Playoff L">10</td>
+    <td class="num-col" data-label="Playoff %">0.500</td>
+    <td data-label="Trophies"><span class="badge badge-gold">🏆 '15, '20, '25</span> <span class="badge badge-points">🥇 Most Pts ('16, '23)</span></td>
+</tr>
+
                     </thead>
                     <tbody>
                         <tr>
