@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1024">
-
     <title>The Sunday Soap Opera - Official League Archive</title>
     <style>
         :root {
@@ -18,59 +17,61 @@
             --highlight-bg: #1e1b4b;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .container {
-            max-width: 1400px;
+            width: 1000px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
-            padding: 30px 0 20px;
+            padding: 20px 0;
             border-bottom: 2px solid var(--border-color);
             margin-bottom: 25px;
         }
 
         h1 {
             color: var(--accent-gold);
-            margin: 0 0 10px 0;
-            font-size: 2.8rem;
-            letter-spacing: 1.5px;
+            margin: 0 0 8px 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         p.subtitle {
             color: var(--text-secondary);
-            font-size: 1.15rem;
-            margin: 0 0 20px 0;
+            font-size: 1.1rem;
+            margin: 0 0 15px 0;
             font-style: italic;
         }
 
-        /* Tab Navigation */
         nav {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             margin-top: 15px;
-            flex-wrap: wrap;
         }
 
         .tab-btn {
             color: var(--text-primary);
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 10px 22px;
+            padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             transition: all 0.2s ease;
         }
@@ -89,31 +90,36 @@
             display: block;
         }
 
-        /* Creative Narrative Styles */
         .story-section {
             background-color: var(--card-bg);
             border-radius: 8px;
-            padding: 30px;
+            padding: 25px;
             border: 1px solid var(--border-color);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
         }
 
         .story-section h2 {
             color: var(--accent-gold);
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-top: 0;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 8px;
         }
 
-        .story-grid {
+        .story-grid, .records-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
 
-        .story-card {
+        .hof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .story-card, .record-card, .hof-card {
             background-color: #0f172a;
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -123,29 +129,27 @@
         .story-card h3 {
             color: #38bdf8;
             margin-top: 0;
+            font-size: 1.2rem;
         }
 
-        /* Sortable Table Styles */
-                        /* Container styling */
         .table-container {
             width: 100%;
             background-color: var(--card-bg);
             border-radius: 8px;
             border: 1px solid var(--border-color);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-            padding: 10px;
+            overflow: hidden;
         }
 
-        /* Default desktop table layout */
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px 10px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -155,84 +159,6 @@
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-        }
-
-        /* MOBILE CARD CONVERSION (For screens under 768px wide) */
-        @media screen and (max-width: 768px) {
-            /* Hide traditional table headers */
-            table thead {
-                display: none;
-            }
-
-            table, tbody, tr, td {
-                display: block;
-                width: 100%;
-            }
-
-            /* Convert each row into a self-contained card */
-            tr {
-                margin-bottom: 15px;
-                background-color: #0f172a;
-                border: 1px solid var(--border-color);
-                border-radius: 8px;
-                padding: 12px;
-                box-sizing: border-box;
-            }
-
-            /* Display cells as flex items with inline labels */
-            td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 6px 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                font-size: 0.85rem;
-                text-align: right;
-            }
-
-            td:last-child {
-                border-bottom: none;
-            }
-
-            /* Add labels before values automatically on mobile */
-            td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                text-transform: uppercase;
-                font-size: 0.75rem;
-                color: var(--accent-gold);
-                text-align: left;
-                margin-right: 10px;
-            }
-
-            td.manager-name {
-                font-size: 1.1rem;
-                font-weight: bold;
-                color: var(--accent-gold);
-                border-bottom: 1px solid var(--border-color);
-                padding-bottom: 8px;
-                margin-bottom: 4px;
-            }
-
-            td.manager-name::before {
-                display: none; /* Hide 'Manager:' label for header title */
-            }
-        }
-
-
-        th, td {
-            padding: 12px 14px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background-color: #0f172a;
-            color: var(--accent-gold);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
             letter-spacing: 0.5px;
             cursor: pointer;
             user-select: none;
@@ -246,7 +172,7 @@
 
         th::after {
             content: ' ↕';
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             opacity: 0.5;
         }
 
@@ -256,17 +182,18 @@
 
         .num-col {
             text-align: right;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
         .badge {
             display: inline-block;
-            padding: 2px 6px;
+            padding: 2px 5px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: bold;
             margin-right: 3px;
             margin-bottom: 2px;
+            white-space: nowrap;
         }
 
         .badge-gold { background-color: var(--accent-gold); color: #000; }
@@ -274,86 +201,63 @@
         .badge-bronze { background-color: var(--accent-bronze); color: #fff; }
         .badge-points { background-color: #3b82f6; color: #fff; }
 
-        /* Record Book Cards */
-        .records-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
         .record-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
             text-align: center;
         }
 
         .record-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             color: var(--text-secondary);
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
         }
 
         .record-value {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: var(--accent-gold);
-            margin-bottom: 5px;
-            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 4px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
         .record-holder {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: bold;
             color: #fff;
         }
 
         .record-sub {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
         }
 
-        /* Hall of Fame Cards */
-        .hof-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
-
         .hof-card {
-            background-color: var(--card-bg);
             border: 2px solid var(--accent-gold);
-            border-radius: 8px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
         }
 
         .hof-header {
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 12px;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .hof-name {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--accent-gold);
             margin: 0;
         }
 
         .hof-years {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
         }
 
         .hof-years-list {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-primary);
-            margin: 10px 0;
+            margin: 8px 0;
             background-color: #0f172a;
             padding: 8px;
             border-radius: 4px;
@@ -367,10 +271,10 @@
             <h1>THE SUNDAY SOAP OPERA</h1>
             <p class="subtitle">Sixteen Years of Heartbreak, Unsolved Draft Disasters, and Pure Fantasy Chaos</p>
             <nav>
-                <button class="tab-btn active" onclick="openTab('story')">1. League Lore & Drama</button>
-                <button class="tab-btn" onclick="openTab('leaderboard')">2. Career Leaderboard</button>
-                <button class="tab-btn" onclick="openTab('records')">3. The Record Book</button>
-                <button class="tab-btn" onclick="openTab('hof')">4. Hall of Fame</button>
+                <button class="tab-btn active" onclick="openTab('story', this)">1. League Lore & Drama</button>
+                <button class="tab-btn" onclick="openTab('leaderboard', this)">2. Career Leaderboard</button>
+                <button class="tab-btn" onclick="openTab('records', this)">3. The Record Book</button>
+                <button class="tab-btn" onclick="openTab('hof', this)">4. Hall of Fame</button>
             </nav>
         </header>
 
@@ -410,19 +314,18 @@
                 <table id="leaderboardTable">
                     <thead>
                         <tr>
-    <td class="manager-name">Steven</td>
-    <td class="num-col" data-label="Seasons">15</td>
-    <td class="num-col" data-label="Reg W">116</td>
-    <td class="num-col" data-label="Reg L">83</td>
-    <td class="num-col" data-label="Reg Win %">0.583</td>
-    <td class="num-col" data-label="Points For">26,527.50</td>
-    <td class="num-col" data-label="Points Against">25,761.55</td>
-    <td class="num-col" data-label="Playoff W">10</td>
-    <td class="num-col" data-label="Playoff L">10</td>
-    <td class="num-col" data-label="Playoff %">0.500</td>
-    <td data-label="Trophies"><span class="badge badge-gold">🏆 '15, '20, '25</span> <span class="badge badge-points">🥇 Most Pts ('16, '23)</span></td>
-</tr>
-
+                            <th onclick="sortTable(0, 'string')">Manager</th>
+                            <th class="num-col" onclick="sortTable(1, 'int')">Seasons</th>
+                            <th class="num-col" onclick="sortTable(2, 'int')">Reg W</th>
+                            <th class="num-col" onclick="sortTable(3, 'int')">Reg L</th>
+                            <th class="num-col" onclick="sortTable(4, 'float')">Reg Win %</th>
+                            <th class="num-col" onclick="sortTable(5, 'float')">Points For</th>
+                            <th class="num-col" onclick="sortTable(6, 'float')">Points Against</th>
+                            <th class="num-col" onclick="sortTable(7, 'int')">Playoff W</th>
+                            <th class="num-col" onclick="sortTable(8, 'int')">Playoff L</th>
+                            <th class="num-col" onclick="sortTable(9, 'float')">Playoff %</th>
+                            <th>Trophies & Honors</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -775,7 +678,7 @@
 
         <!-- TAB 4: HALL OF FAME (5+ YEARS DEDICATION) -->
         <div id="hof" class="tab-content">
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 25px;">Reserved for league veterans who have survived 5+ years of intense fantasy competition.</p>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">Reserved for league veterans who have survived 5+ years of intense fantasy competition.</p>
             <div class="hof-grid">
                 
                 <div class="hof-card">
@@ -944,8 +847,7 @@
     </div>
 
     <script>
-        // Tab Switcher
-        function openTab(tabId) {
+        function openTab(tabId, element) {
             const contents = document.querySelectorAll('.tab-content');
             const buttons = document.querySelectorAll('.tab-btn');
 
@@ -953,10 +855,9 @@
             buttons.forEach(b => b.classList.remove('active'));
 
             document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            element.classList.add('active');
         }
 
-        // Table Sorting Logic
         let sortDirections = {};
 
         function sortTable(columnIndex, dataType) {
@@ -964,7 +865,6 @@
             const tbody = table.querySelector("tbody");
             const rows = Array.from(tbody.querySelectorAll("tr"));
 
-            // Toggle direction
             sortDirections[columnIndex] = !sortDirections[columnIndex];
             const ascending = sortDirections[columnIndex];
 
