@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sunday Soap Opera - Official League Archive</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-gold: #f59e0b;
+            --accent-silver: #94a3b8;
+            --accent-bronze: #d97706;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --highlight-bg: #1e1b4b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: var(--accent-gold);
+            margin: 0 0 10px 0;
+            font-size: 2.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            margin: 0 0 20px 0;
+            font-style: italic;
+        }
+
+        /* Tab Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            color: var(--text-primary);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background-color: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Creative Narrative Styles */
+        .story-section {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        .story-section h2 {
+            color: var(--accent-gold);
+            font-size: 1.8rem;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .story-card {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .story-card h3 {
+            color: #38bdf8;
+            margin-top: 0;
+        }
+
+        /* Sortable Table Styles */
+        .table-container {
+            overflow-x: auto;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #0f172a;
+            color: var(--accent-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        th:hover {
+            background-color: #1e293b;
+            color: #fff;
+        }
+
+        th::after {
+            content: ' ↕';
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        tr:hover {
+            background-color: var(--highlight-bg);
+        }
+
+        .num-col {
+            text-align: right;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 3px;
+            margin-bottom: 2px;
+        }
+
+        .badge-gold { background-color: var(--accent-gold); color: #000; }
+        .badge-silver { background-color: var(--accent-silver); color: #000; }
+        .badge-bronze { background-color: var(--accent-bronze); color: #fff; }
+        .badge-points { background-color: #3b82f6; color: #fff; }
+
+        /* Record Book Cards */
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .record-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .record-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .record-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .record-holder {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .record-sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hall of Fame Cards */
+        .hof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .hof-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+        }
+
+        .hof-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .hof-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin: 0;
+        }
+
+        .hof-years {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .hof-years-list {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            margin: 10px 0;
+            background-color: #0f172a;
+            padding: 8px;
+            border-radius: 4px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>THE SUNDAY SOAP OPERA</h1>
+            <p class="subtitle">Sixteen Years of Heartbreak, Unsolved Draft Disasters, and Pure Fantasy Chaos</p>
+            <nav>
+                <button class="tab-btn active" onclick="openTab('story')">1. League Lore & Drama</button>
+                <button class="tab-btn" onclick="openTab('leaderboard')">2. Career Leaderboard</button>
+                <button class="tab-btn" onclick="openTab('records')">3. The Record Book</button>
+                <button class="tab-btn" onclick="openTab('hof')">4. Hall of Fame</button>
+            </nav>
+        </header>
+
+        <!-- TAB 1: LEAGUE LORE & DRAMA -->
+        <div id="story" class="tab-content active">
+            <div class="story-section">
+                <h2>Welcome to The Sunday Soap Opera</h2>
+                <p>Back in 2010, the league humble-bragged its way into existence as a modest 4-team showdown where everyone was guaranteed a playoff spot. Over the next sixteen years, that cozy circle expanded into a full 12-member circus where grown adults log onto Yahoo Fantasy every September to willingly subject themselves to sixteen weeks of unadulterated pain, irrational lineup decisions, and relentless smack talk. What started as a small quad has mutated into a multi-decade saga filled with undeniable dynasties, cosmic bad luck, and managerial trades so baffling they ought to be investigated by a joint federal task force.</p>
+            </div>
+
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>The DeVante Adams Curse (White Bronco)</h3>
+                    <p>Legend has it that in the dawn of a rookie draft long ago, <strong>Bacon</strong> (managing <em>White Bronco</em>) accidentally selected WR DeVante Adams 1st overall in his rookie season. Some blamed local Brantford Wi-Fi. Some blamed an unsanctioned second gin and tonic. Bacon maintains it was a technological glitch. The fantasy gods, however, cared not for excuses. Since that fateful click, White Bronco has compiled a staggering 139 career losses—the most in league history—and has been officially barred from playoff wins for what feels like eternity. Some say bad management, some say bad internet... I guess we'll never know.</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>The Myth of the 2008 Detroit Lions</h3>
+                    <p>In 2017, <strong>Doug</strong> took over the <em>2008 Detriot Lions</em> franchise and achieved true immortality by finishing 0–13–0. The team was a smoking crater. Enter <strong>Nate</strong> in 2018. Nate hijacked the keys to the zero-win franchise, rode into the season like a fantasy mercenary, dropped 1,962 points, went 10–3, swept through the playoff bracket, and won the 2018 Championship! Having accomplished the impossible, Nate promptly handed the keys back to its original owner and walked into the sunset like a true wildcard hero.</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>The Dynasties: Steven & Matt</h3>
+                    <p>While the rest of us fight over waiver-wire kickers, <strong>Steven</strong> (<em>Steeltown Junkies</em>) and <strong>Matt</strong> (<em>RUN CMC</em>) have been operating corporate empires. Steven holds the crown for most championships in league history with three titles (2015, 2020, 2025), accompanied by an astonishing 116 regular-season wins. Meanwhile, Matt entered the league in 2018 and immediately turned it into his personal piggy bank, posting a ridiculous .684 playoff win percentage with two titles (2019, 2023) and five podium finishes.</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>The Eternal Bridesmaid: Dan & Clenched Tuxedos</h3>
+                    <p>Nobody rides the emotional roller coaster quite like <strong>Dan</strong> (<em>Hatchley Sooners</em>). Dan holds the undisputed league record for heartbreak, finishing as the Championship Runner-Up three separate times (2016, 2017, 2019). In a desperate bid to end his curse, Dan joined forces with Nate in 2025 to create <strong>Clenched Tuxedos</strong>—only to finish 5–9 and miss the playoffs entirely.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: CAREER LEADERBOARD (SORTABLE) -->
+        <div id="leaderboard" class="tab-content">
+            <div class="table-container">
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0, 'string')">Manager</th>
+                            <th class="num-col" onclick="sortTable(1, 'int')">Seasons Played</th>
+                            <th class="num-col" onclick="sortTable(2, 'int')">Regular Season Wins</th>
+                            <th class="num-col" onclick="sortTable(3, 'int')">Regular Season Losses</th>
+                            <th class="num-col" onclick="sortTable(4, 'float')">Reg. Win %</th>
+                            <th class="num-col" onclick="sortTable(5, 'float')">Total Points For (PF)</th>
+                            <th class="num-col" onclick="sortTable(6, 'float')">Total Points Against (PA)</th>
+                            <th class="num-col" onclick="sortTable(7, 'int')">Playoff Wins</th>
+                            <th class="num-col" onclick="sortTable(8, 'int')">Playoff Losses</th>
+                            <th class="num-col" onclick="sortTable(9, 'float')">Playoff Win %</th>
+                            <th>Trophies & Honors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="manager-name">Steven</td>
+                            <td class="num-col">15</td>
+                            <td class="num-col">116</td>
+                            <td class="num-col">83</td>
+                            <td class="num-col">0.583</td>
+                            <td class="num-col">26527.50</td>
+                            <td class="num-col">25761.55</td>
+                            <td class="num-col">10</td>
+                            <td class="num-col">10</td>
+                            <td class="num-col">0.500</td>
+                            <td><span class="badge badge-gold">🏆 '15, '20, '25</span> <span class="badge badge-points">🥇 Most Pts ('16, '23)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Mark</td>
+                            <td class="num-col">15</td>
+                            <td class="num-col">111</td>
+                            <td class="num-col">81</td>
+                            <td class="num-col">0.578</td>
+                            <td class="num-col">26100.25</td>
+                            <td class="num-col">25109.35</td>
+                            <td class="num-col">13</td>
+                            <td class="num-col">11</td>
+                            <td class="num-col">0.542</td>
+                            <td><span class="badge badge-gold">🏆 '11, '17</span> <span class="badge badge-bronze">🥉 '18, '19, '25</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Jon</td>
+                            <td class="num-col">15</td>
+                            <td class="num-col">109</td>
+                            <td class="num-col">91</td>
+                            <td class="num-col">0.545</td>
+                            <td class="num-col">26848.20</td>
+                            <td class="num-col">26276.95</td>
+                            <td class="num-col">15</td>
+                            <td class="num-col">16</td>
+                            <td class="num-col">0.484</td>
+                            <td><span class="badge badge-gold">🏆 '14</span> <span class="badge badge-bronze">🥉 '12, '16, '17, '22</span> <span class="badge badge-points">🥇 Most Pts ('14, '19, '20, '22)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Colby</td>
+                            <td class="num-col">16</td>
+                            <td class="num-col">96</td>
+                            <td class="num-col">118</td>
+                            <td class="num-col">0.449</td>
+                            <td class="num-col">27147.15</td>
+                            <td class="num-col">28135.45</td>
+                            <td class="num-col">8</td>
+                            <td class="num-col">10</td>
+                            <td class="num-col">0.444</td>
+                            <td><span class="badge badge-gold">🏆 '13, '21</span> <span class="badge badge-bronze">🥉 '10</span> <span class="badge badge-points">🥇 Most Pts ('21, '24)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Chris H</td>
+                            <td class="num-col">9</td>
+                            <td class="num-col">62</td>
+                            <td class="num-col">44</td>
+                            <td class="num-col">0.585</td>
+                            <td class="num-col">14582.40</td>
+                            <td class="num-col">13648.15</td>
+                            <td class="num-col">10</td>
+                            <td class="num-col">7</td>
+                            <td class="num-col">0.588</td>
+                            <td><span class="badge badge-gold">🏆 '16</span> <span class="badge badge-silver">🥈 '10, '13, '15</span> <span class="badge badge-bronze">🥉 '11</span> <span class="badge badge-points">🥇 Most Pts ('11, '12, '15)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Bacon</td>
+                            <td class="num-col">16</td>
+                            <td class="num-col">74</td>
+                            <td class="num-col">139</td>
+                            <td class="num-col">0.348</td>
+                            <td class="num-col">25363.60</td>
+                            <td class="num-col">28223.46</td>
+                            <td class="num-col">4</td>
+                            <td class="num-col">7</td>
+                            <td class="num-col">0.364</td>
+                            <td><span class="badge badge-gold">🏆 '10</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">James</td>
+                            <td class="num-col">10</td>
+                            <td class="num-col">74</td>
+                            <td class="num-col">61</td>
+                            <td class="num-col">0.548</td>
+                            <td class="num-col">17953.40</td>
+                            <td class="num-col">17217.00</td>
+                            <td class="num-col">9</td>
+                            <td class="num-col">9</td>
+                            <td class="num-col">0.500</td>
+                            <td><span class="badge badge-gold">🏆 '22</span> <span class="badge badge-silver">🥈 '23</span> <span class="badge badge-bronze">🥉 '20</span> <span class="badge badge-points">🥇 Most Pts ('25)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Dan</td>
+                            <td class="num-col">10</td>
+                            <td class="num-col">70</td>
+                            <td class="num-col">63</td>
+                            <td class="num-col">0.526</td>
+                            <td class="num-col">17387.80</td>
+                            <td class="num-col">17053.60</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">9</td>
+                            <td class="num-col">0.400</td>
+                            <td><span class="badge badge-silver">🥈 '16, '17, '19</span> <span class="badge badge-points">🥇 Most Pts ('17)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Doug</td>
+                            <td class="num-col">13</td>
+                            <td class="num-col">56</td>
+                            <td class="num-col">103</td>
+                            <td class="num-col">0.352</td>
+                            <td class="num-col">20968.35</td>
+                            <td class="num-col">22935.90</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">0.500</td>
+                            <td><span class="badge badge-gold">🏆 '12</span> <span class="badge badge-bronze">🥉 '14</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Matt</td>
+                            <td class="num-col">8</td>
+                            <td class="num-col">63</td>
+                            <td class="num-col">46</td>
+                            <td class="num-col">0.578</td>
+                            <td class="num-col">14922.60</td>
+                            <td class="num-col">13757.70</td>
+                            <td class="num-col">13</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">0.684</td>
+                            <td><span class="badge badge-gold">🏆 '19, '23</span> <span class="badge badge-silver">🥈 '18, '22</span> <span class="badge badge-bronze">🥉 '24</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Dustin</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">51</td>
+                            <td class="num-col">40</td>
+                            <td class="num-col">0.560</td>
+                            <td class="num-col">12272.55</td>
+                            <td class="num-col">11907.15</td>
+                            <td class="num-col">4</td>
+                            <td class="num-col">5</td>
+                            <td class="num-col">0.444</td>
+                            <td><span class="badge badge-silver">🥈 '14</span> <span class="badge badge-bronze">🥉 '15</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Nathan</td>
+                            <td class="num-col">7</td>
+                            <td class="num-col">48</td>
+                            <td class="num-col">48</td>
+                            <td class="num-col">0.500</td>
+                            <td class="num-col">12540.10</td>
+                            <td class="num-col">12328.50</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">4</td>
+                            <td class="num-col">0.600</td>
+                            <td><span class="badge badge-silver">🥈 '20, '21, '25</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Kyle</td>
+                            <td class="num-col">7</td>
+                            <td class="num-col">48</td>
+                            <td class="num-col">59</td>
+                            <td class="num-col">0.449</td>
+                            <td class="num-col">12993.70</td>
+                            <td class="num-col">13303.00</td>
+                            <td class="num-col">0</td>
+                            <td class="num-col">3</td>
+                            <td class="num-col">0.000</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Guru</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">42</td>
+                            <td class="num-col">41</td>
+                            <td class="num-col">0.506</td>
+                            <td class="num-col">10696.60</td>
+                            <td class="num-col">10275.90</td>
+                            <td class="num-col">5</td>
+                            <td class="num-col">4</td>
+                            <td class="num-col">0.556</td>
+                            <td><span class="badge badge-gold">🏆 '24</span> <span class="badge badge-bronze">🥉 '21</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Clayton</td>
+                            <td class="num-col">5</td>
+                            <td class="num-col">37</td>
+                            <td class="num-col">29</td>
+                            <td class="num-col">0.561</td>
+                            <td class="num-col">8899.46</td>
+                            <td class="num-col">8441.75</td>
+                            <td class="num-col">2</td>
+                            <td class="num-col">5</td>
+                            <td class="num-col">0.286</td>
+                            <td><span class="badge badge-bronze">🥉 '13</span> <span class="badge badge-points">🥇 Most Pts ('10, '13)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Joel</td>
+                            <td class="num-col">6</td>
+                            <td class="num-col">29</td>
+                            <td class="num-col">52</td>
+                            <td class="num-col">0.358</td>
+                            <td class="num-col">9610.65</td>
+                            <td class="num-col">10319.10</td>
+                            <td class="num-col">2</td>
+                            <td class="num-col">3</td>
+                            <td class="num-col">0.400</td>
+                            <td><span class="badge badge-bronze">🥉 '23</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Nate</td>
+                            <td class="num-col">4</td>
+                            <td class="num-col">23</td>
+                            <td class="num-col">29</td>
+                            <td class="num-col">0.442</td>
+                            <td class="num-col">6709.75</td>
+                            <td class="num-col">7096.80</td>
+                            <td class="num-col">5</td>
+                            <td class="num-col">1</td>
+                            <td class="num-col">0.833</td>
+                            <td><span class="badge badge-gold">🏆 '18</span> <span class="badge badge-silver">🥈 '11</span> <span class="badge badge-points">🥇 Most Pts ('18)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Mike</td>
+                            <td class="num-col">2</td>
+                            <td class="num-col">15</td>
+                            <td class="num-col">13</td>
+                            <td class="num-col">0.536</td>
+                            <td class="num-col">3431.90</td>
+                            <td class="num-col">3526.20</td>
+                            <td class="num-col">2</td>
+                            <td class="num-col">2</td>
+                            <td class="num-col">0.500</td>
+                            <td><span class="badge badge-silver">🥈 '24</span></td>
+                        </tr>
+                        <tr>
+                            <td class="manager-name">Clenched Tuxedos (Dan & Nate)</td>
+                            <td class="num-col">1</td>
+                            <td class="num-col">5</td>
+                            <td class="num-col">9</td>
+                            <td class="num-col">0.357</td>
+                            <td class="num-col">1605.65</td>
+                            <td class="num-col">1763.90</td>
+                            <td class="num-col">0</td>
+                            <td class="num-col">0</td>
+                            <td class="num-col">0.000</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 3: THE RECORD BOOK -->
+        <div id="records" class="tab-content">
+            <div class="records-grid">
+                <div class="record-card">
+                    <div class="record-title">Most Championships (All-Time)</div>
+                    <div class="record-value">3 Titles</div>
+                    <div class="record-holder">Steven</div>
+                    <div class="record-sub">2015, 2020, 2025</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Most Regular Season Points (Single Season)</div>
+                    <div class="record-value">2,072.45 PF</div>
+                    <div class="record-holder">Colby</div>
+                    <div class="record-sub">2021 Season (Dak to the Future)</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Lowest Regular Season Points (Single Season)</div>
+                    <div class="record-value">1,346.00 PF</div>
+                    <div class="record-holder">Doug</div>
+                    <div class="record-sub">2022 Season (Peyton's People)</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Highest Single Week Score (Recorded Record)</div>
+                    <div class="record-value">222.05 Pts</div>
+                    <div class="record-holder">James</div>
+                    <div class="record-sub">2026 Season — Week 2</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Lowest Single Week Score (Recorded Record)</div>
+                    <div class="record-value">67.55 Pts</div>
+                    <div class="record-holder">Colby</div>
+                    <div class="record-sub">2026 Season</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Highest Single Playoff Game Score</div>
+                    <div class="record-value">229.75 Pts</div>
+                    <div class="record-holder">Colby</div>
+                    <div class="record-sub">2021 Semifinals vs RUN CMC</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Lowest Single Playoff Game Score</div>
+                    <div class="record-value">73.95 Pts</div>
+                    <div class="record-holder">Bacon</div>
+                    <div class="record-sub">2022 Semifinals vs RUN CMC</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Longest Active Playoff Streak</div>
+                    <div class="record-value">8 Seasons</div>
+                    <div class="record-holder">Matt</div>
+                    <div class="record-sub">Made Playoffs Every Season (2018–2025)</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Longest All-Time Playoff Streak</div>
+                    <div class="record-value">8 Seasons</div>
+                    <div class="record-holder">Matt & Mark</div>
+                    <div class="record-sub">Matt (2018–2025), Mark (2011–2018)</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Longest Active Playoff Drought</div>
+                    <div class="record-value">3 Seasons</div>
+                    <div class="record-holder">Bacon</div>
+                    <div class="record-sub">Missed Playoffs 2023–2025 (Last Appearance: 2022)</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Longest All-Time Playoff Drought</div>
+                    <div class="record-value">6 Seasons</div>
+                    <div class="record-holder">Doug</div>
+                    <div class="record-sub">Missed Playoffs 2015–2020</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Most Runner-Up Finishes (Bridesmaid Award)</div>
+                    <div class="record-value">3 Times</div>
+                    <div class="record-holder">Dan & Chris H & Nathan</div>
+                    <div class="record-sub">Dan ('16, '17, '19), Chris H ('10, '13, '15), Nathan ('20, '21, '25)</div>
+                </div>
+
+                <div class="record-card">
+                    <div class="record-title">Most Scoring Titles (Regular Season)</div>
+                    <div class="record-value">4 Titles</div>
+                    <div class="record-holder">Jon</div>
+                    <div class="record-sub">2014, 2019, 2020, 2022</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: HALL OF FAME (5+ YEARS DEDICATION) -->
+        <div id="hof" class="tab-content">
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 25px;">Reserved for league veterans who have survived 5+ years of intense fantasy competition.</p>
+            <div class="hof-grid">
+                
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Bacon (Andrew Bacon)</div>
+                        <div class="hof-years">16 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 74–139–1 (Reg) | 4–7 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2010 Champion</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Chris H</div>
+                        <div class="hof-years">9 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 62–44–0 (Reg) | 10–7 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2016 Champ | 🥈 '10, '13, '15 | 🥉 '11</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Colby</div>
+                        <div class="hof-years">16 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 96–118–0 (Reg) | 8–10 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2013, 2021 Champ | 🥉 2010</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Steven</div>
+                        <div class="hof-years">15 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 116–83–1 (Reg) | 10–10 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2015, 2020, 2025 Champ</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Mark</div>
+                        <div class="hof-years">15 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 111–81–0 (Reg) | 13–11 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2011, 2017 Champ | 🥉 '18, '19, '25</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Jon</div>
+                        <div class="hof-years">15 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 109–91–0 (Reg) | 15–16 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2014 Champ | 🥉 '12, '16, '17, '22</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Doug</div>
+                        <div class="hof-years">13 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 56–103–0 (Reg) | 6–6 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2012 Champ | 🥉 2014</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Dan</div>
+                        <div class="hof-years">10 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 70–63–0 (Reg) | 6–9 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🥈 2016, 2017, 2019 Runner-Up</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">James</div>
+                        <div class="hof-years">10 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 74–61–0 (Reg) | 9–9 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2022 Champ | 🥈 '23 | 🥉 '20</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Matt</div>
+                        <div class="hof-years">8 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 63–46–0 (Reg) | 13–6 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 '19, '23 Champ | 🥈 '18, '22 | 🥉 '24</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Kyle</div>
+                        <div class="hof-years">7 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 48–59–0 (Reg) | 0–3 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> None</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2016, 2017, 2018, 2019, 2020, 2021, 2022</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Nathan</div>
+                        <div class="hof-years">7 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 48–48–0 (Reg) | 6–4 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🥈 2020, 2021, 2025 Runner-Up</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2019, 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Guru</div>
+                        <div class="hof-years">6 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 42–41–0 (Reg) | 5–4 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🏆 2024 Champ | 🥉 2021</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2020, 2021, 2022, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Dustin</div>
+                        <div class="hof-years">6 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 51–40–0 (Reg) | 4–5 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🥈 2014 | 🥉 2015</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2013, 2014, 2015, 2016, 2017, 2018</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Joel</div>
+                        <div class="hof-years">6 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 29–52–0 (Reg) | 2–3 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🥉 2023 3rd Place</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2015, 2016, 2017, 2023, 2024, 2025</div>
+                </div>
+
+                <div class="hof-card">
+                    <div class="hof-header">
+                        <div class="hof-name">Clayton</div>
+                        <div class="hof-years">5 Seasons in League</div>
+                    </div>
+                    <div><strong>Career Record:</strong> 37–29–0 (Reg) | 2–5 (Playoffs)</div>
+                    <div><strong>Trophies:</strong> 🥉 2013 3rd Place</div>
+                    <div class="hof-years-list"><strong>Active Years:</strong> 2010, 2011, 2012, 2013, 2014</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Tab Switcher
+        function openTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            contents.forEach(c => c.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Table Sorting Logic
+        let sortDirections = {};
+
+        function sortTable(columnIndex, dataType) {
+            const table = document.getElementById("leaderboardTable");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+
+            // Toggle direction
+            sortDirections[columnIndex] = !sortDirections[columnIndex];
+            const ascending = sortDirections[columnIndex];
+
+            rows.sort((rowA, rowB) => {
+                let cellA = rowA.children[columnIndex].innerText.trim();
+                let cellB = rowB.children[columnIndex].innerText.trim();
+
+                if (dataType === 'int' || dataType === 'float') {
+                    cellA = parseFloat(cellA.replace(/,/g, '')) || 0;
+                    cellB = parseFloat(cellB.replace(/,/g, '')) || 0;
+                    return ascending ? cellA - cellB : cellB - cellA;
+                } else {
+                    return ascending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                }
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+</body>
+</html>
